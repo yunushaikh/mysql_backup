@@ -1,0 +1,5 @@
+# m h  dom mon dow   command
+0 */2 * * *  find /var/lib/mysql/ -name 'splivedb-ii-bin.*' ! -name '*.index' ! -name '*.gz' -type f -mmin +300 -exec gzip {} \;
+0 1 * * * find /binlogs/ -name 'splivedb-ii-bin.*.gz' -type f -mtime +30 -exec rm -f {} \;
+0 */4 * * * mv /var/lib/mysql/splivedb-ii-bin.*.gz /binlogs/
+00 04 * * * /usr/bin/bash /purge/purge.sh >  /purge/logs/purge_logs.log 2>&1
