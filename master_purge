@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+set -e
+while IFS="," read -r database name days
+do
+  echo "starting archiver for $database.$name"  
+  /usr/bin/pt-archiver --source h=localhost,D=$database,t=$name --purge --progress=50000 --why-quit --retries=5 --limit=1000 --txn-size=1000 --sentinel=/tmp/pt-archiver-$name --bulk-delete --no-check-charset  --primary-key-only --where "created_datetime  <= (CURDATE() - INTERVAL $days DAY)" | tee -a /purge/logs/$name'_purgelogs'.log
+  if [ $? -eq 0 ]; then
+        echo "Archiver completed for $database.$name for $days days."
+  else
+        echo "Archiver failed for $database.$name for $days days"         
+  fi  
+done <  /purge/tables.config
+exit
