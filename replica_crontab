@@ -1,0 +1,5 @@
+# m h  dom mon dow   command
+0 0 2-31 * 1-6 /backups/daily_backup_script.sh >>/backups/daily_backup_cron.log 2>&1
+0 3 * * SUN /backups/weekly_backup_script.sh >> /backups/weekly_backup_cron.log 2>&1
+0 0 1 * * /backups/monthly_backup_script.sh >> /backups/monthly_backup_cron.log 2>&1
+00 02 * * * /usr/bin/bash /purge/purge.sh >  /purge/logs/purge_logs.log 2>&1
