@@ -1,0 +1,7 @@
+# m h  dom mon dow   command
+1 0 * * * find /backups/replica -daystart -mtime +7 -name 'daily_replica_*' -type d -exec rm -rf {} \;
+0 1 * * sun find /backups/replica -daystart -mtime +30 -name 'weekly_replica_*' -type d -exec rm -rf {} \;
+0 1 1 Jan * find /backups/replica -daystart -mtime +365 -name 'monthly_replica_*' -type d -exec rm -rf {} \;
+1 0 * * * find /backups/storage -daystart -mtime +7 -name 'daily_storage_*' -type d -exec rm -rf {} \;
+0 1 * * sun find /backups/storage -daystart -mtime +30 -name 'weekly_storage_*' -type d -exec rm -rf {} \;
+0 1 1 * * find /backups/storage -daystart -mtime +365 -name 'monthly_storage_*' -type d -exec rm -rf {} \;
